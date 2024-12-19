@@ -114,13 +114,13 @@
     highScoreSpan.textContent = highScore;
 
     // Start Game
-    startButton.addEventListener('touch', () => {
+    startButton.addEventListener('click', () => {
       welcomeScreen.style.display = 'none';
       gameContainer.style.display = 'block';
       startGame();
     });
 
-    retryButton.addEventListener('touch', () => {
+    retryButton.addEventListener('click', () => {
       endScreen.style.display = 'none';
       score = 10;
       scoreSpan.textContent = score;
@@ -218,7 +218,7 @@
     }
 
     // camion Movement
-    document.addEventListener('mousemove', (e) => {
+    document.addEventListener('touchmove', (e) => {
       const gameBounds = gameContainer.getBoundingClientRect();
       const camionWidth = camion.offsetWidth;
 
