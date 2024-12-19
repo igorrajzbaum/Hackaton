@@ -217,17 +217,30 @@
       });
     }
 
-    // camion Movement
-    document.addEventListener('touchmove', (e) => {
+    // camion Movement for Desktop and Mobile
+    function handleCamionMovement(clientX) {
       const gameBounds = gameContainer.getBoundingClientRect();
       const camionWidth = camion.offsetWidth;
 
-      let newLeft = e.clientX - gameBounds.left - camionWidth / 2;
+      let newLeft = clientX - gameBounds.left - camionWidth / 2;
       if (newLeft < 0) newLeft = 0;
       if (newLeft > gameBounds.width - camionWidth) newLeft = gameBounds.width - camionWidth;
 
       camion.style.left = newLeft + 'px';
+    }
+
+    // Desktop: Mouse Movement
+    document.addEventListener('mousemove', (e) => {
+      handleCamionMovement(e.clientX);
     });
+
+    // Mobile: Touch Movement
+    document.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        handleCamionMovement(e.touches[0].clientX);
+      }
+    });
+
   </script>
 </body>
 </html>
