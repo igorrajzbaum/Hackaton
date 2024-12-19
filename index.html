@@ -27,7 +27,7 @@
       display: none;
       position: relative;
       width: 100%;
-      height: 90vh;
+      height: 85vh;
       overflow: hidden;
       background-color: #a8d3c4;
     }
@@ -114,13 +114,13 @@
     highScoreSpan.textContent = highScore;
 
     // Start Game
-    startButton.addEventListener('click', () => {
+    startButton.addEventListener('touch', () => {
       welcomeScreen.style.display = 'none';
       gameContainer.style.display = 'block';
       startGame();
     });
 
-    retryButton.addEventListener('click', () => {
+    retryButton.addEventListener('touch', () => {
       endScreen.style.display = 'none';
       score = 10;
       scoreSpan.textContent = score;
