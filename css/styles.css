@@ -14,6 +14,18 @@ body {
     justify-content: center;
     height: 100vh;
   }
+  #rules-screen {
+    display: flex;
+    flex-direction: column;
+  }
+  #rules-list {
+    margin: auto;
+    width: 50vw;
+    justify-content: center;
+    align-items: center;
+    text-justify: auto;
+    text-align: left;
+  }
   #game-container {
     display: none;
     position: relative;

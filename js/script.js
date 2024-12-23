@@ -1,7 +1,9 @@
 // Elements
 const welcomeScreen = document.getElementById('welcome-screen');
+const rulesScreen = document.getElementById('rules-screen');
 const gameContainer = document.getElementById('game-container');
 const endScreen = document.getElementById('end-screen');
+const rulesButton = document.getElementById('rules-button');
 const startButton = document.getElementById('start-button');
 const retryButton = document.getElementById('retry-button');
 const camion = document.getElementById('camion');
@@ -20,6 +22,12 @@ let gameInterval;
 let fallingItems = [];
 
 highScoreSpan.textContent = highScore;
+
+// Rules Screen
+rulesButton.addEventListener('click', () => {
+    welcomeScreen.style.display = 'none';
+    rulesScreen.style.display = 'block';
+});
 
 // Start Game
 startButton.addEventListener('click', () => {
@@ -117,7 +125,9 @@ function moveFallingItems() {
     } 
     else if (itemTop > gameContainer.offsetHeight) {
         // Item missed
-        lives--;
+        if (item.classList.contains('good-item')) {
+        lives--; // Good item: Decrease lives
+        }
         item.remove();
         fallingItems.splice(index, 1);
     }
