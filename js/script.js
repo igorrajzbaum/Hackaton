@@ -90,7 +90,7 @@ function createFallingItem() {
 
     setTimeout(() => {
     if (lives > 0) createFallingItem();
-    }, Math.random() * 1000 + 500);
+    }, (Math.random() * 1000 + 500)/(1+0.1*(Math.floor(score/10)+1)));
 }
 
 function moveFallingItems() {
