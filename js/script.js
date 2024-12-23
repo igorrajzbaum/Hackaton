@@ -5,6 +5,7 @@ const endScreen = document.getElementById('end-screen');
 const startButton = document.getElementById('start-button');
 const retryButton = document.getElementById('retry-button');
 const camion = document.getElementById('camion');
+const livesSpan = document.getElementById('lives');
 const scoreSpan = document.getElementById('score');
 const highScoreSpan = document.getElementById('high-score');
 const endMessage = document.getElementById('end-message');
@@ -12,7 +13,8 @@ const finalScore = document.getElementById('final-score');
 const finalHighScore = document.getElementById('final-high-score');
 
 // Variables
-let score = 10;
+let lives = 10;
+let score = 0;
 let highScore = localStorage.getItem('highScore') || 0;
 let gameInterval;
 let fallingItems = [];
@@ -28,8 +30,9 @@ startButton.addEventListener('click', () => {
 
 retryButton.addEventListener('click', () => {
     endScreen.style.display = 'none';
-    score = 10;
-    scoreSpan.textContent = score;
+    lives = 10;
+    score = 0;
+    livesSpan.textContent = lives;
     gameContainer.style.display = 'block';
     startGame();
 });
@@ -50,7 +53,7 @@ function endGame() {
     gameContainer.style.display = 'none';
     endScreen.style.display = 'flex';
 
-    if (score > 0) {
+    if (lives > 0) {
     endMessage.textContent = "Great Job! Keep Recycling!";
     } else {
     endMessage.textContent = "Game Over! Let's Try Again!";
@@ -86,7 +89,7 @@ function createFallingItem() {
     fallingItems.push(item);
 
     setTimeout(() => {
-    if (score > 0) createFallingItem();
+    if (lives > 0) createFallingItem();
     }, Math.random() * 1000 + 500);
 }
 
@@ -106,20 +109,22 @@ function moveFallingItems() {
         if (item.classList.contains('good-item')) {
         score++; // Good item: Increase score
         } else if (item.classList.contains('bad-item')) {
-        score -= 5; // Bad item: Decrease score by 5
+        lives -= 5; // Bad item: Decrease lives by 5
         }
-        scoreSpan.textContent = score;
+        scoreSpan.textContent = score;  
         item.remove();
         fallingItems.splice(index, 1);
-
-        if (score <= 0) {
-        endGame();
-        }
-    } else if (itemTop > gameContainer.offsetHeight) {
+    } 
+    else if (itemTop > gameContainer.offsetHeight) {
         // Item missed
+        lives--;
         item.remove();
         fallingItems.splice(index, 1);
     }
+    livesSpan.textContent = lives;
+    if (lives <= 0) {
+        endGame();
+        }
     });
 }
 

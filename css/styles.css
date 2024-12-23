@@ -46,6 +46,12 @@ body {
     left: 10px;
     font-size: 18px;
   }
+  #livesboard {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    font-size: 18px;
+  }
   button {
     margin-top: 20px;
     padding: 10px 20px;
