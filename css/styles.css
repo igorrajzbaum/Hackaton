@@ -77,3 +77,17 @@ body {
   button:hover {
     background-color: #00a06d;
   }
+  #rules-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: white;
+    color: #004533;
+    border: 1px solid #004533;
+    border-radius: 5px;
+    border-color: #004533;
+    cursor: pointer;
+  }
+  #rules-button:hover {
+    background-color: #C7F7E8;
+  }
