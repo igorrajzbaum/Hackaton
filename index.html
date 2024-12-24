@@ -6,80 +6,38 @@
   <title>Recycle Catcher Game</title>
   <!-- Font Awesome CDN -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #d3eaf2;
-      color: #333;
-      text-align: center;
-    }
-    #welcome-screen, #end-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    #game-container {
-      display: none;
-      position: relative;
-      width: 100%;
-      height: 85vh;
-      overflow: hidden;
-      background-color: #a8d3c4;
-    }
-    #camion {
-      width: 100px;
-      height: 80px;
-      background-image: url('assets/camion.png');
-      background-size: cover;
-      position: absolute;
-      bottom: 0px;
-      left: 50%;
-    }
-    .falling-item {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      font-size: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #scoreboard {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 18px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
   <!-- Welcome Screen -->
   <div id="welcome-screen">
     <h1>Recycle Catcher Game</h1>
-    <button id="start-button">Start Game</button>
+    <button id="rules-button">Game Rules</button>
+    <button class="start-game-button">Start Game</button>
+  </div>
+
+  <!-- Game Rules Screen -->
+  <div id="rules-screen">
+    <h1>Game Rules</h1>
+    <div id="rules-list">
+      <ul>
+        <li>You're driving a truck to collect Recyclables.</li>
+        <li>Each time you collect a recyclable item, you'll increase your score. Each time you miss one, you'll lose one life. The game is lost once you run out of lives</li>
+        <li>Some items should not go in the recyclable bin! Don't collect them or you'll lose more lives.</li>
+        <li>The higher your score gets, the quicker the items fall ! Sharpen your reflexes if you want to become a sorting hero!</li>
+      </ul>
+    </div>
+    <div id="ready-to-play">
+      <p>Are you ready to play ?</p>
+      <button class="start-game-button">Start Game</button>
+    </div>
   </div>
 
   <!-- Game Container -->
   <div id="game-container">
-    <div id="scoreboard">Score: <span id="score">10</span> | High Score: <span id="high-score">0</span></div>
+    <div class="background-container"></div>
+    <div id="scoreboard">Score: <span id="score">0</span> | High Score: <span id="high-score">0</span></div>
+    <div id="livesboard">Lives : <span id="lives">10</span></div>
     <div id="camion"></div>
   </div>
 
@@ -91,156 +49,6 @@
     <button id="retry-button">Play Again</button>
   </div>
 
-  <script>
-    // Elements
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const gameContainer = document.getElementById('game-container');
-    const endScreen = document.getElementById('end-screen');
-    const startButton = document.getElementById('start-button');
-    const retryButton = document.getElementById('retry-button');
-    const camion = document.getElementById('camion');
-    const scoreSpan = document.getElementById('score');
-    const highScoreSpan = document.getElementById('high-score');
-    const endMessage = document.getElementById('end-message');
-    const finalScore = document.getElementById('final-score');
-    const finalHighScore = document.getElementById('final-high-score');
-
-    // Variables
-    let score = 10;
-    let highScore = localStorage.getItem('highScore') || 0;
-    let gameInterval;
-    let fallingItems = [];
-
-    highScoreSpan.textContent = highScore;
-
-    // Start Game
-    startButton.addEventListener('click', () => {
-      welcomeScreen.style.display = 'none';
-      gameContainer.style.display = 'block';
-      startGame();
-    });
-
-    retryButton.addEventListener('click', () => {
-      endScreen.style.display = 'none';
-      score = 10;
-      scoreSpan.textContent = score;
-      gameContainer.style.display = 'block';
-      startGame();
-    });
-
-    // Game Functions
-    function startGame() {
-      fallingItems = [];
-      createFallingItem();
-      gameInterval = setInterval(() => {
-        moveFallingItems();
-      }, 20);
-    }
-
-    function endGame() {
-      clearInterval(gameInterval);
-      fallingItems.forEach(item => item.remove());
-      fallingItems = [];
-      gameContainer.style.display = 'none';
-      endScreen.style.display = 'flex';
-
-      if (score > 0) {
-        endMessage.textContent = "Great Job! Keep Recycling!";
-      } else {
-        endMessage.textContent = "Game Over! Let's Try Again!";
-      }
-
-      finalScore.textContent = score;
-      finalHighScore.textContent = highScore;
-
-      if (score > highScore) {
-        highScore = score;
-        localStorage.setItem('highScore', highScore);
-        highScoreSpan.textContent = highScore;
-      }
-    }
-
-    function createFallingItem() {
-      const item = document.createElement('div');
-      const isGoodItem = Math.random() < 0.7; // 70% chance of being a good item
-      item.classList.add('falling-item', isGoodItem ? 'good-item' : 'bad-item');
-
-      // Assign icon based on type
-      if (isGoodItem) {
-        const icons = ['<img src="assets/carton.png" width="40px" height="40px">', '<img src="assets/bottle.png" width="40px" height="40px">'];
-        item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
-      } else {
-        const icons = ['<img src="assets/omr.png" width="40px" height="40px">'];
-        item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
-      }
-
-      item.style.left = Math.random() * (gameContainer.offsetWidth - 40) + 'px';
-      item.style.top = '0px';
-      gameContainer.appendChild(item);
-      fallingItems.push(item);
-
-      setTimeout(() => {
-        if (score > 0) createFallingItem();
-      }, Math.random() * 1000 + 500);
-    }
-
-    function moveFallingItems() {
-      fallingItems.forEach((item, index) => {
-        const itemTop = parseInt(item.style.top);
-        const camionLeft = camion.offsetLeft;
-        const camionRight = camionLeft + camion.offsetWidth;
-
-        // Move item down
-        item.style.top = itemTop + 5 + 'px';
-
-        // Check collision
-        if (itemTop + 40 >= gameContainer.offsetHeight - camion.offsetHeight &&
-            item.offsetLeft + 40 > camionLeft &&
-            item.offsetLeft < camionRight) {
-          if (item.classList.contains('good-item')) {
-            score++; // Good item: Increase score
-          } else if (item.classList.contains('bad-item')) {
-            score -= 5; // Bad item: Decrease score by 5
-          }
-          scoreSpan.textContent = score;
-          item.remove();
-          fallingItems.splice(index, 1);
-
-          if (score <= 0) {
-            endGame();
-          }
-        } else if (itemTop > gameContainer.offsetHeight) {
-          // Item missed
-          item.remove();
-          fallingItems.splice(index, 1);
-        }
-      });
-    }
-
-    // camion Movement for Desktop and Mobile
-    function handleCamionMovement(clientX) {
-      const gameBounds = gameContainer.getBoundingClientRect();
-      const camionWidth = camion.offsetWidth;
-
-      let newLeft = clientX - gameBounds.left - camionWidth / 2;
-      if (newLeft < 0) newLeft = 0;
-      if (newLeft > gameBounds.width - camionWidth) newLeft = gameBounds.width - camionWidth;
-
-      camion.style.left = newLeft + 'px';
-    }
-
-    // Desktop: Mouse Movement
-    document.addEventListener('mousemove', (e) => {
-      handleCamionMovement(e.clientX);
-    });
-
-    // Mobile: Touch Movement
-    document.addEventListener('touchmove', (e) => {
-      if (e.touches && e.touches.length > 0) {
-        handleCamionMovement(e.touches[0].clientX);
-      }
-    });
-
-  </script>
+  <script src="js/script.js"></script>
 </body>
 </html>
