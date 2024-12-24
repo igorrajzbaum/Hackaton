@@ -4,7 +4,7 @@ const rulesScreen = document.getElementById('rules-screen');
 const gameContainer = document.getElementById('game-container');
 const endScreen = document.getElementById('end-screen');
 const rulesButton = document.getElementById('rules-button');
-const startButton = document.getElementById('start-button');
+const startButtons = document.querySelectorAll('.start-game-button'); 
 const retryButton = document.getElementById('retry-button');
 const camion = document.getElementById('camion');
 const livesSpan = document.getElementById('lives');
@@ -30,11 +30,10 @@ rulesButton.addEventListener('click', () => {
 });
 
 // Start Game
-startButton.addEventListener('click', () => {
-    welcomeScreen.style.display = 'none';
-    gameContainer.style.display = 'block';
-    startGame();
-});
+startButtons.forEach(button => {
+    button.addEventListener('click', startGame); 
+  });
+  
 
 retryButton.addEventListener('click', () => {
     endScreen.style.display = 'none';
@@ -47,6 +46,9 @@ retryButton.addEventListener('click', () => {
 
 // Game Functions
 function startGame() {
+    welcomeScreen.style.display = 'none';
+    rulesScreen.style.display = 'none';
+    gameContainer.style.display = 'block';
     fallingItems = [];
     createFallingItem();
     gameInterval = setInterval(() => {
@@ -84,11 +86,20 @@ function createFallingItem() {
 
     // Assign icon based on type
     if (isGoodItem) {
-    const icons = ['<img src="assets/carton.png" width="40px" height="40px">', '<img src="assets/bottle.png" width="40px" height="40px">'];
-    item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+    const icons_good = [
+        '<img src="assets/carton.png" width="40px" height="40px">',
+        '<img src="assets/bottle.png" width="40px" height="40px">',
+        '<img src="assets/can.png" width="30px">',
+        '<img src="assets/tetrapak.png" height="60px">'
+    ];
+    item.innerHTML = icons_good[Math.floor(Math.random() * icons_good.length)];
     } else {
-    const icons = ['<img src="assets/omr.png" width="40px" height="40px">'];
-    item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+    const icons_bad = [
+        '<img src="assets/omr.png" width="50px" height="50px">',
+        '<img src="assets/proto.png" width="60px" height="60px">',
+        '<img src="assets/glass_bottle.png" width="40px" height="40px">'
+    ];
+    item.innerHTML = icons_bad[Math.floor(Math.random() * icons_bad.length)];
     }
 
     item.style.left = Math.random() * (gameContainer.offsetWidth - 40) + 'px';
