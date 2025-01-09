@@ -28,12 +28,12 @@ body {
   }
   #game-container {
     display: none;
-    position: relative;
+    /* position: relative; */
     height:100vh;
     overflow: hidden;
   }
   .background-container {
-    position: absolute; 
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%; 
@@ -49,12 +49,12 @@ body {
     height: 80px;
     background-image: url('../assets/camion.png');
     background-size: cover;
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     left: 50%;
   }
   .falling-item {
-    position: absolute;
+    position: fixed;
     width: 40px;
     height: 40px;
     font-size: 30px;
@@ -63,13 +63,13 @@ body {
     justify-content: center;
   }
   #scoreboard {
-    position: absolute;
+    position: fixed;
     top: 10px;
     left: 10px;
     font-size: 18px;
   }
   #livesboard {
-    position: absolute;
+    position: fixed;
     top: 30px;
     left: 10px;
     font-size: 18px;
